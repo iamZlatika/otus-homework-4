@@ -1,0 +1,10 @@
+.cell {
+  width: 20px;
+  height: 20px;
+  border: solid #276678;
+  margin: 2px;
+}
+
+.filled{
+    background: #1687a7;
+}
