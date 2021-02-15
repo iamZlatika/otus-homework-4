@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --mode development --hot --port 3000 --open",
+    "start": "webpack serve --mode development --hot --port 3001 --open",
     "test": "jest --coverage",
     "lint": "npx eslint --ext .js,.ts,.tsx,.jsx --fix ./",
     "storybook": "start-storybook -p 6006",

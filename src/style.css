@@ -1,0 +1,30 @@
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+}
+
+h1{
+    text-align: center;
+    color: #276678;
+}
+
+.btn{
+    background: #1687a7;
+    color: #fff;
+    padding: 10px;
+    font-size: 1rem;
+    margin: 20px;
+}
+.generation{
+    display: block;
+    margin: 20px auto;
+}
+.size{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
