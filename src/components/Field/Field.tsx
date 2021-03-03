@@ -1,5 +1,5 @@
 import React from "react";
-import Cell from "../Cell/Cell";
+import Cell from "../Cell";
 import "./Field.css";
 
 interface FieldProps {
@@ -10,10 +10,10 @@ interface FieldProps {
 const Field: React.FC<FieldProps> = ({ field, onClick }) => {
   return (
     <>
-      {field.map((row, height) => (
-        <div key={height} className="row">
-          {row.map((filled, width) => (
-            <Cell onClick={() => onClick(height, width)} key={width} filled={filled} />
+      {field.map((row, x) => (
+        <div key={x} className="row">
+          {row.map((filled, y) => (
+            <Cell onClick={() => onClick(x, y)} key={y} filled={filled} />
           ))}
         </div>
       ))}

@@ -1,20 +1,27 @@
 import React, { useState } from "react";
-import Timer from "./components/Timer/Timer";
+import Timer from "./components/Timer";
 import "./style.css";
-import Game from "./Game/Game";
+import Game from "./Game";
 
 const App: React.FC = () => {
-  const [showTimer, setShowTimer] = useState(true);
-  const [size, setSize] = useState([10, 10]);
+  const [shouldDisplayTimer, setShouldDisplayTimer] = useState(true);
+  const [width, setWidth] = useState(10);
+  const [height, setHeight] = useState(10);
+  
+  const setSize=(width:number, height: number)=>{
+    setHeight(height)
+    setWidth(width)
+  }
+
   return (
     <>
       <h1>Game of Life</h1>
-      {showTimer && <Timer onClose={() => setShowTimer(false)} />}
+      {shouldDisplayTimer && <Timer onClose={() => setShouldDisplayTimer(false)} />}
       <div className="size">
         <button
           className="btn"
           onClick={() => {
-            setSize([10, 10]);
+            setSize(10, 10);
           }}
         >
           10x10
@@ -22,13 +29,13 @@ const App: React.FC = () => {
         <button
           className="btn"
           onClick={() => {
-            setSize([20, 20]);
+            setSize(20, 20);
           }}
         >
           20x20
         </button>
       </div>
-      <Game width={size[0]} height={size[1]} />
+      <Game width={width} height={height} />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { mount, shallow } from "enzyme";
 import React from "react";
-import Cell from "../components/Cell/Cell";
+import Cell from "../components/Cell";
 import Game from "./Game";
 import * as gameService from "./game-service";
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Field from "../components/Field/Field";
+import Field from "../components/Field";
 import GameOfLife from "./game-of-life";
 import { fetchField } from "./game-service";
 
