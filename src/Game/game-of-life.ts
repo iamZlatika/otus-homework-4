@@ -36,6 +36,16 @@ export default class GameOfLife {
   }
 
   isAlive(x: number, y: number): boolean {
-    return this.field[x] && this.field[x][y] ? this.field[x][y] : false;
+    if (x === -1) {
+      x = this.field.length - 1;
+    } else if (x === this.field.length) {
+      x = 0;
+    }
+    if (y === -1) {
+      y = this.field[x].length - 1;
+    } else if (y === this.field[x].length) {
+      y = 0;
+    }
+    return this.field[x][y];
   }
 }

@@ -1,13 +1,32 @@
-export const fetchField = async (height: number, width: number): Promise<boolean[][]> => {
-  const response = await fetch(
-    `http://my-json-server.typicode.com/iamZlatika/otus-homework-4/images/${height}X${width}`
-  );
-  if (response.ok) {
-    return (await response.json()).field;
-  }
-  return emptyField(height, width);
+const createEmptyField = (height: number, width: number): boolean[][] => {
+  return Array.from({ length: height }, () => new Array(width).fill(false));
 };
 
-export const emptyField = (height: number, width: number): boolean[][] => {
-  return Array.from({ length: height }, () => new Array(width).fill(false));
+export const generateField = (height: number, width: number, dencity = 0): boolean[][] => {
+  const cellsToFill = (height * width * dencity) / 100;
+  const field = createEmptyField(height, width);
+  let filledCells = 0,
+    x = 0,
+    y = 0;
+
+  while (filledCells < cellsToFill) {
+    x = Math.floor(Math.random() * width);
+    y = Math.floor(Math.random() * height);
+    if (field[y][x]) continue;
+    filledCells++;
+    field[y][x] = true;
+  }
+  return field;
+};
+
+export const resizeField = (height: number, width: number, prevField: boolean[][]): boolean[][] => {
+  const newField = createEmptyField(height, width);
+  const h = Math.min(height, prevField.length);
+  const w = Math.min(width, prevField[0].length);
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      newField[y][x] = prevField[y][x];
+    }
+  }
+  return newField;
 };

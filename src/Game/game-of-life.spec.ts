@@ -1,5 +1,13 @@
 import GameOfLife from "./game-of-life";
 
+// `
+// □□□□□
+// □□■□□
+// □□■□□
+// □□■□□
+// □□□□□
+// `
+
 describe("Game of life", () => {
   const emptyField = [
     [false, false, false],
@@ -23,14 +31,18 @@ describe("Game of life", () => {
     });
     it("Should make new generation", () => {
       const field = [
-        [false, true, false],
-        [false, true, false],
-        [false, true, false],
+        [false, false, false, false, false],
+        [false, false, true, false, false],
+        [false, false, true, false, false],
+        [false, false, true, false, false],
+        [false, false, false, false, false],
       ];
       const expectedField = [
-        [false, false, false],
-        [true, true, true],
-        [false, false, false],
+        [false, false, false, false, false],
+        [false, false, false, false, false],
+        [false, true, true, true, false],
+        [false, false, false, false, false],
+        [false, false, false, false, false],
       ];
       expect(new GameOfLife(field).nextGeneration().field).toEqual(expectedField);
     });
@@ -55,11 +67,11 @@ describe("Game of life", () => {
     });
     it("Should return state of non existing cell", () => {
       const field = [[true]];
-      expect(new GameOfLife(field).isAlive(0, 1)).toBe(false);
+      expect(new GameOfLife(field).isAlive(0, 1)).toBe(true);
     });
     it("Should return state of non existing row", () => {
       const field = [[true]];
-      expect(new GameOfLife(field).isAlive(-1, 1)).toBe(false);
+      expect(new GameOfLife(field).isAlive(-1, 1)).toBe(true);
     });
   });
 });

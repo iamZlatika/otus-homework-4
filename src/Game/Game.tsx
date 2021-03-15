@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import Field from "../components/Field";
 import GameOfLife from "./game-of-life";
-import { fetchField } from "./game-service";
+import { generateField, resizeField } from "./game-service";
 
 interface GameProps {
   height: number;
   width: number;
+  dencity?: number;
+  isActive?: boolean;
+  updateInterval?: number;
 }
 
 interface GameState {
@@ -13,6 +16,8 @@ interface GameState {
 }
 
 export default class Game extends Component<GameProps, GameState> {
+  intervalID: any;
+
   constructor(props: GameProps) {
     super(props);
 
@@ -22,17 +27,9 @@ export default class Game extends Component<GameProps, GameState> {
     this.nextGeneration = this.nextGeneration.bind(this);
   }
 
-  async componentDidMount() {
-    const field = await fetchField(this.props.height, this.props.width);
+  componentDidMount() {
+    const field = generateField(this.props.height, this.props.width, this.props.dencity);
     this.setState({ field });
-  }
-
-  shouldComponentUpdate(nextProps: GameProps, nextState: GameState): boolean {
-    return (
-      nextProps.height !== this.props.height ||
-      nextProps.width !== this.props.width ||
-      JSON.stringify(this.state.field) !== JSON.stringify(nextState.field)
-    );
   }
 
   onClick(x: number, y: number): void {
@@ -46,10 +43,24 @@ export default class Game extends Component<GameProps, GameState> {
     this.setState({ field: newField });
   }
 
-  async componentDidUpdate(prevProps: GameProps) {
+  componentDidUpdate(prevProps: GameProps) {
     if (prevProps.height !== this.props.height || prevProps.width !== this.props.width) {
-      const field = await fetchField(this.props.height, this.props.width);
+      const field = resizeField(this.props.height, this.props.width, this.state.field);
       this.setState({ field });
+    }
+    if (prevProps.dencity !== this.props.dencity) {
+      const field = generateField(this.props.height, this.props.width, this.props.dencity);
+      this.setState({ field });
+    }
+
+    if (!prevProps.isActive && this.props.isActive) {
+      this.intervalID = setInterval(this.nextGeneration, this.props.updateInterval);
+    } else if (prevProps.isActive && !this.props.isActive) {
+      clearInterval(this.intervalID);
+    }
+    if (prevProps.updateInterval !== this.props.updateInterval && this.props.isActive) {
+      clearInterval(this.intervalID);
+      this.intervalID = setInterval(this.nextGeneration, this.props.updateInterval);
     }
   }
 
@@ -57,9 +68,6 @@ export default class Game extends Component<GameProps, GameState> {
     return (
       <>
         <Field field={this.state.field} onClick={this.onClick} />
-        <button className="btn generation" onClick={this.nextGeneration}>
-          Next Generation
-        </button>
       </>
     );
   }
