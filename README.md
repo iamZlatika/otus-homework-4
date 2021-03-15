@@ -1,4 +1,8 @@
 # OTUS homework 4
+
+# Live Demo
+[Game of Life](https://iamzlatika.github.io/otus-homework-4/)
+
 ## Component lifecycle
 
 ### Run project 

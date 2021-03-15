@@ -22,6 +22,11 @@ module.exports = {
     "max-len": ["error", { code: 120 }],
     "react/prop-types": "off",
   },
+  settings: {
+    jest: {
+      version: 26,
+    },
+  },
   overrides: [
     {
       files: ["webpack.config.js"],

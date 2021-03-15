@@ -29,20 +29,20 @@ describe("Field", () => {
       />
     );
     expect(field.find(Cell)).toHaveLength(9);
-    expect(field.find(".filled")).toHaveLength(1);
+    expect(field.find({ filled: true }).find(Cell)).toHaveLength(1);
   });
   it("Should handle click", () => {
     const field = mount(
       <Field
         field={[
           [false, false, false],
-          [false, true, false],
+          [false, false, false],
           [false, false, false],
         ]}
         onClick={handler}
       />
     );
-    field.find(".filled").simulate("click");
-    expect(handler).toBeCalledWith(1, 1);
+    field.find(Cell).last().simulate("click");
+    expect(handler).toBeCalledWith(2, 2);
   });
 });
