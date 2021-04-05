@@ -1,4 +1,6 @@
-const createEmptyField = (height: number, width: number): boolean[][] => {
+import GameOfLife from "./game-of-life";
+
+export const createEmptyField = (height: number, width: number): boolean[][] => {
   return Array.from({ length: height }, () => new Array(width).fill(false));
 };
 
@@ -29,4 +31,8 @@ export const resizeField = (height: number, width: number, prevField: boolean[][
     }
   }
   return newField;
+};
+
+export const nextGeneration = (field: boolean[][]) => {
+  return new GameOfLife(field).nextGeneration().field;
 };

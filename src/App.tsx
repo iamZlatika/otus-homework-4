@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import styled from "@emotion/styled";
 import Game from "./Game";
-import Button from "./components/Button";
-import FieldSize from "./components/FieldSize";
-import FieldDencity from "./components/FieldDencity";
-import Login from "./components/Login";
+import Button from "components/Button";
+import FieldSize from "components/FieldSize";
+import FieldDencity from "components/FieldDencity";
+import Login from "components/Login";
+import { generateField, createEmptyField } from "services/game-service";
 
 const SizeControlForm = styled.form`
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-around;
   margin-bottom: 20px;
@@ -24,9 +24,13 @@ const AppGreeting = styled.h2`
 const ControllBar = styled.div`
   margin-top: 20px;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-around;
+`;
+const LoginBar = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 `;
 
 const App: React.FC = () => {
@@ -37,6 +41,7 @@ const App: React.FC = () => {
   const [isActive, setActive] = useState(false);
   const [updateInterval, setUpdateInterval] = useState(500);
   const [login, setLogin] = useState("");
+  const [initialField, setInitialField] = useState(generateField(height, width, dencity));
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,23 +57,53 @@ const App: React.FC = () => {
     setLogin(localStorage.getItem("Login"));
   }, [login]);
 
+  const handleLogout = () => {
+    localStorage.removeItem("Login");
+    setLogin("");
+  };
+
+  const updateDencity = (dencity: number) => {
+    setDencity(dencity);
+    setInitialField(generateField(field.height, field.width, dencity));
+  };
+
+  const clearField = () => {
+    setInitialField(createEmptyField(height, width));
+  };
+
+  const reset = () => {
+    setHeight(20);
+    setWidth(20);
+    setField({ height: 20, width: 20 });
+    setDencity(20);
+    setInitialField(generateField(20, 20, 20));
+    setActive(false);
+  };
+
   return login ? (
     <>
       <AppTitle>Game of Life</AppTitle>
-      <AppGreeting>Hello, {login}</AppGreeting>
+      <LoginBar>
+        <AppGreeting>Hello, {login}</AppGreeting>
+        <Button onClick={handleLogout}>Log out</Button>
+      </LoginBar>
       <SizeControlForm onSubmit={handleSubmit}>
         <FieldSize id="height" label="Height" value={height} onUpdate={setHeight} />
         <FieldSize id="width" label="Width" value={width} onUpdate={setWidth} />
-        <Button type="submit">Apply</Button>
-        <FieldDencity label="Dencity" value={dencity} id="dencity" onUpdate={setDencity} />
+        <Button type="submit">Resize</Button>
+        <FieldDencity label="Dencity" value={dencity} id="dencity" onUpdate={updateDencity} />
       </SizeControlForm>
-      <Game {...field} dencity={dencity} isActive={isActive} updateInterval={updateInterval} />
+      <Game {...field} initialField={initialField} isActive={isActive} updateInterval={updateInterval} />
       <ControllBar>
         <Button onClick={() => setUpdateInterval(updateInterval * 1.3)}>Slower</Button>
-        {isActive && <Button onClick={() => setActive(false)}>Pause</Button>}
-        {!isActive && <Button onClick={() => setActive(true)}>Play</Button>}
+        {isActive ? (
+          <Button onClick={() => setActive(false)}>Pause</Button>
+        ) : (
+          <Button onClick={() => setActive(true)}>Play</Button>
+        )}
         <Button onClick={() => setUpdateInterval(updateInterval * 0.7)}>Faster</Button>
-        <Button onClick={() => setDencity(0)}>Clear</Button>
+        <Button onClick={() => clearField()}>Clear</Button>
+        <Button onClick={() => reset()}>Restart</Button>
       </ControllBar>
     </>
   ) : (

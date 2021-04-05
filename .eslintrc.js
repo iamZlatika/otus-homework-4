@@ -21,6 +21,7 @@ module.exports = {
   rules: {
     "max-len": ["error", { code: 120 }],
     "react/prop-types": "off",
+    "@typescript-eslint/explicit-module-boundary-types": ["off"],
   },
   settings: {
     jest: {
@@ -32,7 +33,6 @@ module.exports = {
       files: ["webpack.config.js"],
       rules: {
         "@typescript-eslint/no-var-requires": ["off"],
-        "@typescript-eslint/explicit-module-boundary-types": ["off"],
       },
     },
   ],
