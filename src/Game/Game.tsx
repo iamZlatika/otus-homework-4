@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import Field from "../components/Field";
-import GameOfLife from "./game-of-life";
-import { generateField, resizeField } from "./game-service";
+import Field from "components/Field";
+import { nextGeneration, resizeField } from "services/game-service";
 
 interface GameProps {
   height: number;
   width: number;
-  dencity?: number;
   isActive?: boolean;
   updateInterval?: number;
+  initialField: boolean[][];
 }
 
 interface GameState {
@@ -16,7 +15,7 @@ interface GameState {
 }
 
 export default class Game extends Component<GameProps, GameState> {
-  intervalID: any;
+  intervalID: ReturnType<typeof setInterval>;
 
   constructor(props: GameProps) {
     super(props);
@@ -28,7 +27,7 @@ export default class Game extends Component<GameProps, GameState> {
   }
 
   componentDidMount() {
-    const field = generateField(this.props.height, this.props.width, this.props.dencity);
+    const field = this.props.initialField;
     this.setState({ field });
   }
 
@@ -39,8 +38,7 @@ export default class Game extends Component<GameProps, GameState> {
   }
 
   nextGeneration(): void {
-    const newField = new GameOfLife(this.state.field).nextGeneration().field;
-    this.setState({ field: newField });
+    this.setState({ field: nextGeneration(this.state.field) });
   }
 
   componentDidUpdate(prevProps: GameProps) {
@@ -48,11 +46,6 @@ export default class Game extends Component<GameProps, GameState> {
       const field = resizeField(this.props.height, this.props.width, this.state.field);
       this.setState({ field });
     }
-    if (prevProps.dencity !== this.props.dencity) {
-      const field = generateField(this.props.height, this.props.width, this.props.dencity);
-      this.setState({ field });
-    }
-
     if (!prevProps.isActive && this.props.isActive) {
       this.intervalID = setInterval(this.nextGeneration, this.props.updateInterval);
     } else if (prevProps.isActive && !this.props.isActive) {
@@ -62,6 +55,13 @@ export default class Game extends Component<GameProps, GameState> {
       clearInterval(this.intervalID);
       this.intervalID = setInterval(this.nextGeneration, this.props.updateInterval);
     }
+    if (prevProps.initialField !== this.props.initialField) {
+      this.setState({ field: this.props.initialField });
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
   }
 
   render() {

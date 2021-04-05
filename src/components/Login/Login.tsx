@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import Button from "../Button";
+import Button from "components/Button";
 
 const LoginWrapper = styled.form`
-  margin: 0 auto;
-  position: fixed;
-  top: 250px;
-  left: 430px;
+  margin: 300px auto;
   width: 400px;
   height: 200px;
   border: solid #276678;
@@ -15,7 +12,6 @@ const LoginWrapper = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
   input {
     width: 50px;
     margin: 0 20px;

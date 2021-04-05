@@ -1,5 +1,5 @@
 import React from "react";
-import Cell from "../Cell";
+import Cell from "components/Cell";
 import styled from "@emotion/styled";
 
 interface FieldProps {

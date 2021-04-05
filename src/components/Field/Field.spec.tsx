@@ -1,6 +1,6 @@
 import { mount, shallow } from "enzyme";
 import React from "react";
-import Cell from "../Cell/Cell";
+import Cell from "components/Cell";
 import Field from "./Field";
 
 describe("Field", () => {
