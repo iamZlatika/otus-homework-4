@@ -3,17 +3,17 @@ import "./style.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
+import { getCurrentUser, logOut } from "./services/login-service";
 
 const App: React.FC = () => {
-  const [login, setLogin] = useState(localStorage.getItem("Login"));
+  const [login, setLogin] = useState(getCurrentUser());
 
   const onLogin = (userName: string) => {
     setLogin(userName);
   };
 
   const onLogout = () => {
-    localStorage.removeItem("Login");
-    onLogout();
+    logOut();
   };
 
   return (

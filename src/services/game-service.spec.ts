@@ -21,53 +21,77 @@ describe("Generate field", () => {
 
 describe("Resize field", () => {
   it("Should resize field", () => {
-    const field = [
-      [true, false, false],
-      [false, true, false],
-      [false, true, false],
-    ];
-    const expectedField = [
-      [true, false, false, false],
-      [false, true, false, false],
-    ];
+    const field = toField(
+      `■□□
+       □■□
+       □■□`
+    );
+    const expectedField = toField(
+      `■□□□
+       □■□□`
+    );
+
     expect(resizeField(2, 4, field)).toEqual(expectedField);
   });
 });
 
 describe("Game of life", () => {
-  const emptyField = [
-    [false, false, false],
-    [false, false, false],
-    [false, false, false],
-  ];
+  let emptyField: boolean[][];
+
+  beforeEach(() => {
+    emptyField = toField(
+      `□□□
+       □□□
+       □□□`
+    );
+  });
   describe("Next Generation", () => {
     it("Should generate empty field from empty field", () => {
       expect(nextGeneration(emptyField)).toEqual(emptyField);
     });
     it("Should erase single cell", () => {
-      const singeCellField = [
-        [false, false, false],
-        [false, true, false],
-        [false, false, false],
-      ];
+      const singeCellField = toField(
+        `□□□
+         □■□
+         □□□`
+      );
+
       expect(nextGeneration(singeCellField)).toEqual(emptyField);
     });
     it("Should make new generation", () => {
-      const field = [
-        [false, false, false, false, false],
-        [false, false, true, false, false],
-        [false, false, true, false, false],
-        [false, false, true, false, false],
-        [false, false, false, false, false],
-      ];
-      const expectedField = [
-        [false, false, false, false, false],
-        [false, false, false, false, false],
-        [false, true, true, true, false],
-        [false, false, false, false, false],
-        [false, false, false, false, false],
-      ];
+      const field = toField(
+        `□□□□□
+         □□■□□
+         □□■□□
+         □□■□□
+         □□□□□`
+      );
+
+      const expectedField = toField(
+        `□□□□□
+         □□□□□
+         □■■■□
+         □□□□□
+         □□□□□`
+      );
+
       expect(nextGeneration(field)).toEqual(expectedField);
     });
+  });
+});
+
+const toField = (field: string): boolean[][] => {
+  return field.split("\n").map((line) =>
+    line
+      .split("")
+      .filter((c) => c !== " ")
+      .map((s) => s === "■")
+  );
+};
+
+describe("to Field", () => {
+  it("Should transform string to field", () => {
+    const field = [[true, false, true]];
+    expect(toField("■_■")).toEqual(field);
   });
 });

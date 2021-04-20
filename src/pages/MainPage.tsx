@@ -38,7 +38,7 @@ interface MainPageProps {
   onLogout: (userName: string) => void;
 }
 
-const MainPage: React.FC<MainPageProps> = ({ login }) => {
+const MainPage: React.FC<MainPageProps> = ({ login, onLogout }) => {
   const history = useHistory();
 
   const [width, setWidth] = useState(20);
@@ -72,6 +72,7 @@ const MainPage: React.FC<MainPageProps> = ({ login }) => {
     setActive(false);
   };
   const handleLogout = () => {
+    onLogout();
     history.push("/login");
   };
 

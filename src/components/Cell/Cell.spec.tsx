@@ -5,7 +5,7 @@ import Cell from "./Cell";
 
 expect.extend(matchers);
 describe("Cell", () => {
-  let handler: typeof jest.fn;
+  let handler: jest.Mock;
   beforeEach(() => {
     handler = jest.fn();
   });
