@@ -1,7 +1,7 @@
 import { mount, shallow } from "enzyme";
 import React from "react";
 import Cell from "components/Cell";
-import Game from "./Game";
+import Game from "./GameField";
 import { createEmptyField, generateField } from "services/game-service";
 
 describe("Game", () => {

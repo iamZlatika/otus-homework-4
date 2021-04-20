@@ -4,7 +4,7 @@ import Cell from "components/Cell";
 import Field from "./Field";
 
 describe("Field", () => {
-  let handler;
+  let handler: typeof jest.fn;
   beforeEach(() => {
     handler = jest.fn();
   });

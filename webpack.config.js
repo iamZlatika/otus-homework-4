@@ -1,12 +1,13 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-console.log(__dirname);
+
 module.exports = {
   entry: "./src/index.tsx",
   devtool: "source-map",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index_bundle.js",
+    publicPath: "/",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
@@ -28,6 +29,9 @@ module.exports = {
     ],
   },
   mode: "development",
+  devServer: {
+    historyApiFallback: true,
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/index.html",
